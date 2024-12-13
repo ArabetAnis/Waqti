@@ -105,7 +105,7 @@ export default function LoginForm() {
             <div className="flex justify-end mt-2 text-gray">
               <a className="hover:text-loginButton">forgot password?</a>
             </div>
-            <button className="bg-loginButton mt-8 w-full rounded-md py-[9px] flex justify-center hover:shadow-xl hover:shadow-loginButton/80 transition duration-300">
+            <button className="bg-loginButton mt-8 w-full rounded-md py-[9px] flex justify-center hover:shadow-xl font-bold hover:shadow-loginButton/80 transition duration-300">
               Log in
             </button>
             <div className="flex flex-col items-center">
@@ -178,8 +178,8 @@ export default function LoginForm() {
                       y2="37.7586"
                       gradientUnits="userSpaceOnUse"
                     >
-                      <stop stop-color="#18ACFE" />
-                      <stop offset="1" stop-color="#0163E0" />
+                      <stop stopColor="#18ACFE" />
+                      <stop offset="1" stopColor="#0163E0" />
                     </linearGradient>
                   </defs>
                 </svg>
