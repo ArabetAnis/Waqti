@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useSession, signIn, signOut } from "next-auth/react";
 import {
   AtSymbolIcon,
@@ -6,8 +6,31 @@ import {
   ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
+import { useState } from "react";
+
 
 export default function LoginForm() {
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false, // Prevent automatic redirect
+    });
+
+    if (result?.error) {
+      setError("Invalid email or password");
+    } else {
+      window.location.href = "/dashboard"; // Redirect to dashboard on success
+    }
+  };
   return (
     <>
       <header className="bg-white py-4 px-8 absolute">
@@ -75,45 +98,55 @@ export default function LoginForm() {
           </div>
           <div className="flex-1 rounded-lg bg-white w-[25%] pb-4 pt-8">
             <h1 className={`mb-3 text-2xl text-black`}>Sign in</h1>
-            <div className="w-full">
-              <div>
-                <div className="relative">
-                  <input
-                    className="peer bg-light-purple mt-5 block w-full rounded-md py-[9px] pl-10 text-loginButton outline-2 placeholder:text-text-light-purple"
-                    id="email"
-                    type="email"
-                    name="email"
-                    placeholder="Enter your email address"
-                    required
-                  />
-                  <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-text-light-purple" />
-                </div>
-              </div>
-              <div className="mt-4">
-                <div className="relative">
-                  <input
-                    className="peer bg-light-purple mt-5 block w-full rounded-md py-[9px] pl-10 text-loginButton outline-2 placeholder:text-text-light-purple"
-                    id="password"
-                    type="password"
-                    name="password"
-                    placeholder="Enter password"
-                    required
-                    minLength={6}
-                  />
-                  <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-text-light-purple" />
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-end mt-2 text-neutral-300">
-              <a className="hover:text-loginButton">forgot password?</a>
-            </div>
-            <button className="bg-loginButton mt-8 w-full rounded-md py-[9px] flex justify-center hover:shadow-xl font-bold hover:shadow-loginButton/80 transition duration-300">
-              Log in
-            </button>
+            <form onSubmit={handleSubmit}>
+      <div className="w-full">
+        <div>
+          <div className="relative">
+            <input
+              className="peer bg-light-purple mt-5 block w-full rounded-md py-[9px] pl-10 text-loginButton outline-2 placeholder:text-text-light-purple"
+              id="email"
+              type="email"
+              name="email"
+              placeholder="Enter your email address"
+              required
+            />
+            <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-text-light-purple" />
+          </div>
+        </div>
+        <div className="mt-4">
+          <div className="relative">
+            <input
+              className="peer bg-light-purple mt-5 block w-full rounded-md py-[9px] pl-10 text-loginButton outline-2 placeholder:text-text-light-purple"
+              id="password"
+              type="password"
+              name="password"
+              placeholder="Enter password"
+              required
+              minLength={6}
+            />
+            <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-text-light-purple" />
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-end mt-2 text-neutral-300">
+        <a className="hover:text-loginButton">forgot password?</a>
+      </div>
+      <button
+        type="submit"
+        className="bg-loginButton mt-8 w-full rounded-md py-[9px] flex justify-center hover:shadow-xl font-bold hover:shadow-loginButton/80 transition duration-300"
+      >
+        Log in
+      </button>
+      {error && <p className="text-red-500 mt-4">{error}</p>}
+    </form>
+
             <div className="flex flex-col items-center text-neutral-300">
               <p className="mt-10">or continue with</p>
               <div className="flex mt-5">
-                <button className="mx-1 rounded-[50%] hover:shadow-xl  hover:shadow-rose-400/90 transition duration-300"  onClick={() => signIn("google")}>
+                <button
+                  className="mx-1 rounded-[50%] hover:shadow-xl  hover:shadow-rose-400/90 transition duration-300"
+                  onClick={() => signIn("google")}
+                >
                   <svg
                     className="m-0"
                     height="30"
@@ -139,7 +172,10 @@ export default function LoginForm() {
                     />
                   </svg>
                 </button>
-                <button className="mx-1 rounded-[50%] hover:shadow-xl  hover:shadow-stone-400/90 transition duration-300"  onClick={() => signIn("github")}>
+                <button
+                  className="mx-1 rounded-[50%] hover:shadow-xl  hover:shadow-stone-400/90 transition duration-300"
+                  onClick={() => signIn("github")}
+                >
                   <svg
                     className="m-0"
                     height="30"
@@ -157,7 +193,10 @@ export default function LoginForm() {
                     />
                   </svg>
                 </button>
-                <button className="mx-1 rounded-[50%] hover:shadow-xl  hover:shadow-cyan-400/90 transition duration-300"   onClick={() => signIn("discord")}>
+                <button
+                  className="mx-1 rounded-[50%] hover:shadow-xl  hover:shadow-cyan-400/90 transition duration-300"
+                  onClick={() => signIn("discord")}
+                >
                   <svg
                     className="m-0 bg-transparent"
                     height="30"

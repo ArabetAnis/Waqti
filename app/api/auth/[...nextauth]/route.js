@@ -4,6 +4,10 @@ import { Pool } from "pg";
 import GitHub from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
+import { ZodError } from "zod"
+import Credentials from "next-auth/providers/credentials"
+import { signInSchema } from "@/lib/zod"
+//import { getUserFromDb } from "@/utils/db";
 
 
 
@@ -15,6 +19,9 @@ const pool = new Pool({
   port: parseInt(process.env.DATABASE_PORT, 10), // The 10 is to make it a Base10 integer
 
 });
+
+
+
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     trustHost: true,
@@ -38,7 +45,48 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       DiscordProvider({
         clientId: process.env.DISCORD_CLIENT_ID,
         clientSecret: process.env.DISCORD_CLIENT_SECRET
-      })
+      }),
+      Credentials({
+        // You can specify which fields should be submitted, by adding keys to the `credentials` object.
+        // e.g. domain, username, password, 2FA token, etc.
+        credentials: {
+            email: { label: "Email", type: "email" },
+            password: { label: "Password", type: "password" },
+        },
+        async authorize(credentials) {
+            const { email, password } = credentials;
+    
+            // Query to find user by email
+            const { rows } = await pool.query(
+              "SELECT * FROM users WHERE email = $1",
+              [email]
+            );
+    
+            let user = rows[0];
+    
+            if (!user) {
+              // If user does not exist, create a new one
+              const insertQuery = `
+                INSERT INTO users (email, password, name)
+                VALUES ($1, $2, $3)
+                RETURNING *;
+              `;
+              const result = await pool.query(insertQuery, [
+                email,
+                password,
+                email.split("@")[0], // Example: Default name is email prefix
+              ]);
+              user = result.rows[0];
+}else {
+    // If user exists, verify the password
+    const isPasswordValid = password==user.password;
+    if (!isPasswordValid) {
+      throw new Error("Invalid credentials");
+    }
+  }
+
+  // Return user object
+  return { id: user.id, email: user.email, name: user.name };}})
   ],
   secret: process.env.AUTH_SECRET,
   callbacks: {
