@@ -1,3 +1,5 @@
+'use client';
+import { useSession, signIn, signOut } from "next-auth/react";
 import {
   AtSymbolIcon,
   KeyIcon,
@@ -38,7 +40,7 @@ export default function LoginForm() {
         </svg>
       </header>
       <div className="h-screen w-screen bg-white flex items-center justify-center">
-        <form className="space-y-3 pt-20 bg-white flex w-[80%]">
+        <div className="space-y-3 pt-20 bg-white flex w-[80%]">
           <div className="w-[70%] pt-4">
             <h1 className="text-black text-4xl font-bold">Welcome to</h1>
             <div className="flex justify-center pt-5">
@@ -111,7 +113,7 @@ export default function LoginForm() {
             <div className="flex flex-col items-center text-neutral-300">
               <p className="mt-10">or continue with</p>
               <div className="flex mt-5">
-                <button className="mx-1 rounded-[50%] hover:shadow-xl  hover:shadow-rose-400/90 transition duration-300">
+                <button className="mx-1 rounded-[50%] hover:shadow-xl  hover:shadow-rose-400/90 transition duration-300"  onClick={() => signIn("google")}>
                   <svg
                     className="m-0"
                     height="30"
@@ -137,7 +139,7 @@ export default function LoginForm() {
                     />
                   </svg>
                 </button>
-                <button className="mx-1 rounded-[50%] hover:shadow-xl  hover:shadow-stone-400/90 transition duration-300">
+                <button className="mx-1 rounded-[50%] hover:shadow-xl  hover:shadow-stone-400/90 transition duration-300"  onClick={() => signIn("github")}>
                   <svg
                     className="m-0"
                     height="30"
@@ -155,7 +157,7 @@ export default function LoginForm() {
                     />
                   </svg>
                 </button>
-                <button className="mx-1 rounded-[50%] hover:shadow-xl  hover:shadow-cyan-400/90 transition duration-300">
+                <button className="mx-1 rounded-[50%] hover:shadow-xl  hover:shadow-cyan-400/90 transition duration-300"   onClick={() => signIn("discord")}>
                   <svg
                     className="m-0 bg-transparent"
                     height="30"
@@ -194,7 +196,7 @@ export default function LoginForm() {
 
             <div className="flex h-8 items-end space-x-1"></div>
           </div>
-        </form>
+        </div>
       </div>
     </>
   );
