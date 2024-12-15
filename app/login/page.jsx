@@ -28,7 +28,7 @@ export default function LoginForm() {
     if (result?.error) {
       setError("Invalid email or password");
     } else {
-      window.location.href = "/dashboard"; // Redirect to dashboard on success
+      window.location.href = "/Waqti/dashboard"; // Redirect to dashboard on success
     }
   };
   return (

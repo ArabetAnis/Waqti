@@ -4,10 +4,8 @@ import { Pool } from "pg";
 import GitHub from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
-import { ZodError } from "zod"
 import Credentials from "next-auth/providers/credentials"
-import { signInSchema } from "@/lib/zod"
-//import { getUserFromDb } from "@/utils/db";
+
 
 
 
