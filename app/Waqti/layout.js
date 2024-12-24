@@ -7,7 +7,7 @@ export default function Layout({ children }) {
 
         <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
 
-            <div className="w-full flex-none w-64">
+            <div className="h-full flex-none w-64">
                 <SideNav />
 
 

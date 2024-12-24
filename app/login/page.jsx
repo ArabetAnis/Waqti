@@ -145,7 +145,7 @@ export default function LoginForm() {
               <div className="flex mt-5">
                 <button
                   className="mx-1 rounded-[50%] hover:shadow-xl  hover:shadow-rose-400/90 transition duration-300"
-                  onClick={() => signIn("google")}
+                  onClick={() => signIn("google", { callbackUrl: "/Waqti/dashboard" })}
                 >
                   <svg
                     className="m-0"
@@ -174,7 +174,7 @@ export default function LoginForm() {
                 </button>
                 <button
                   className="mx-1 rounded-[50%] hover:shadow-xl  hover:shadow-stone-400/90 transition duration-300"
-                  onClick={() => signIn("github")}
+                  onClick={() => signIn("github", { callbackUrl: "/Waqti/dashboard" })}
                 >
                   <svg
                     className="m-0"
@@ -195,7 +195,7 @@ export default function LoginForm() {
                 </button>
                 <button
                   className="mx-1 rounded-[50%] hover:shadow-xl  hover:shadow-cyan-400/90 transition duration-300"
-                  onClick={() => signIn("discord")}
+                  onClick={() => signIn("discord", { callbackUrl: "/Waqti/dashboard" })}
                 >
                   <svg
                     className="m-0 bg-transparent"
